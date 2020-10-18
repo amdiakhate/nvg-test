@@ -13,6 +13,15 @@ Once the app is upp and running, you need to run the workers
 ```
 make workers
 ```
+
+The app should be accessible at :
+
+```
+http://localhost:8500/products
+```
+
+
+
 To stop the app
 
 ```
