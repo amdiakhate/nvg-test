@@ -1,0 +1,26 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+
+list_products:
+  path: /products
+  controller: App\Controller\Web\ListProductsAction
+  methods: [ 'GET' ]
+view_product:
+  path: /products/view/{id}
+  controller: App\Controller\Web\ViewProductAction
+  methods: [ 'GET' ]
+search_product:
+  path: /products/search
+  controller: App\Controller\Web\SearchProductAction
+  methods: [ 'GET' ]
+
+post_products:
+  path: /erp/products
+  controller: App\Controller\API\ProductsPostAction
+  methods: [ 'POST' ]
+post_inventories:
+  path: /erp/inventories
+  controller: App\Controller\API\InventoriesPostAction
+  methods: [ 'POST' ]

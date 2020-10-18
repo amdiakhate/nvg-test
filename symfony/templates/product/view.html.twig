@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2>Product details</h2>
+    <div class="row">
+        <div class="col-lg-3">
+            <ul>
+                <li>Ref : {{ product.reference }}</li>
+                <li>Name : {{ product.name }}</li>
+                <li>Dropshipping : {{ (product.dropshipping == 1) ? 'yes':'no' }}</li>
+                <li>Description :{{ product.description }}</li>
+
+            </ul>
+        </div>
+        <div class="col-lg-3">
+            <h3>        Pricing
+            </h3>
+            <table class="table table-striped table-sm">
+                <thead>
+                <th>
+                    Channels
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    VAT
+                </th>
+                </thead>
+                <tbody>
+
+                {% for pricing in product.pricings %}
+                    <tr>
+                        <td>
+                            {{ pricing.channel}}</td>
+                        <td>
+                            {{ pricing.price}}</td>
+                        <td>
+                            {{ pricing.vat}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="col-lg-6">
+            <h3>        Inbounds
+            </h3>
+            <table class="table table-striped table-sm">
+                <thead>
+                <th>
+                    #
+                </th>
+                <th>
+                    Channels
+                </th>
+                <th>
+                    Qty
+                </th>
+                <th>
+                    Inbounds
+                </th>
+                </thead>
+                <tbody>
+
+                {% for inventory in product.inventories %}
+                    <tr>
+                        <td>
+                            {{ inventory.id }}
+                        </td>
+
+                        <td>
+                            {{ inventory.channel|map(c=> c.name)|join(', ') }}</td>
+                        <td>
+                            {{ inventory.quantity }}</td>
+                        <td>
+                            <ul>
+
+                                {% for inbound in inventory.inbounds %}
+                                    <li>{{ inbound.arrivalDate|date('Y-m-d h:m:i') }} : {{ inbound.quantity }} items
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('list_products') }}" class="btn btn-primary">Back to products</a>
+        </div>
+
+
+    </div>
+{% endblock %}
+
