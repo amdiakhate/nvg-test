@@ -1,13 +1,5 @@
-# Basic Symfony 5 setup with docker-sync
+# Basic Symfony  setup with docker-sync
 
-Example of using `docker-sync` for developing a symfony application on OSX.
-
-Running the example
----
-
-Create a symfony project under the symfony dir
-
-https://symfony.com/doc/current/best_practices.html#use-the-symfony-binary-to-create-symfony-applications
 
 ```
 $ make start
