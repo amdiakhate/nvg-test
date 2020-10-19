@@ -10,11 +10,13 @@ use App\Model\API\StockRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -45,14 +47,19 @@ class InventoriesPostAction
         $data = $request->getContent();
 //        we get the products from the request
 
-        $stocksRequest = $this->serializer->deserialize(
-            $data,
-            'App\Model\API\StockRequest[]'
-            ,
-            'json', [
-                ObjectNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
-            ]
-        );
+        try {
+            $stocksRequest = $this->serializer->deserialize(
+                $data,
+                'App\Model\API\StockRequest[]'
+                ,
+                'json', [
+                    ObjectNormalizer::ALLOW_EXTRA_ATTRIBUTES => true,
+                ]
+            );
+        } catch (NotEncodableValueException $exception) {
+            throw new BadRequestHttpException('Invalid parameter');
+        }
+
         if (!empty($stocksRequest)) {
             $stocksRequestChunk = [];
             foreach ($stocksRequest as $stockRequest) {
